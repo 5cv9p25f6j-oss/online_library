@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Reader',
+    schema: 'online_library',
   });
   return Reader;
 };
