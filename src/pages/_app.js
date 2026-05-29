@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
 import Head from 'next/head';
-
+import ErrorBoundary from '../components/ErrorBoundary';
 export default function App({ Component, pageProps }) {
   return (
     <>
@@ -10,9 +10,11 @@ export default function App({ Component, pageProps }) {
         <meta name="description" content="Լավագույն հայկական և համաշխարհային գրականությունը" />
       </Head>
       <Navbar />
-      <main>
-        <Component {...pageProps} />
-      </main>
+      <ErrorBoundary>
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </ErrorBoundary>
     </>
   );
 }
