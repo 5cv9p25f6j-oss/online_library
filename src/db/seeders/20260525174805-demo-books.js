@@ -35,10 +35,10 @@ module.exports = {
       updatedAt: new Date()
     }));
 
-    await queryInterface.bulkInsert('Books', books, {});
+    await queryInterface.bulkInsert({ tableName: 'Books', schema: 'online_library' }, books, {});
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Books', null, {});
+    await queryInterface.bulkDelete({ tableName: 'Books', schema: 'online_library' }, null, {});
   }
 };
