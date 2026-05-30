@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Modal from '../../components/Modal';
 
 export default function Authors() {
+  const router = useRouter();
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,9 +12,38 @@ export default function Authors() {
   
   const [formData, setFormData] = useState({
     name: '',
-    birthYear: '',
-    biography: ''
+    country: '',
+    genre: ''
   });
+
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
+  const [authorBooks, setAuthorBooks] = useState([]);
+  const [loadingBooks, setLoadingBooks] = useState(false);
+  const [isBooksModalOpen, setIsBooksModalOpen] = useState(false);
+
+  const handleOpenBooksModal = async (author) => {
+    setSelectedAuthor(author);
+    setIsBooksModalOpen(true);
+    setLoadingBooks(true);
+    try {
+      const res = await fetch('/api/books');
+      const data = await res.json();
+      const allBooks = Array.isArray(data) ? data : data.books || [];
+      const filtered = allBooks.filter(b => b.authorName && b.authorName.toLowerCase() === author.name.toLowerCase());
+      setAuthorBooks(filtered);
+    } catch (e) {
+      console.error(e);
+      setAuthorBooks([]);
+    } finally {
+      setLoadingBooks(false);
+    }
+  };
+
+  const handleCloseBooksModal = () => {
+    setIsBooksModalOpen(false);
+    setSelectedAuthor(null);
+    setAuthorBooks([]);
+  };
 
   const fetchAuthors = () => {
     setLoading(true);
@@ -33,12 +64,12 @@ export default function Authors() {
       setEditingAuthor(author);
       setFormData({
         name: author.name,
-        birthYear: author.birthYear,
-        biography: author.biography
+        country: author.country || '',
+        genre: author.genre || ''
       });
     } else {
       setEditingAuthor(null);
-      setFormData({ name: '', birthYear: '', biography: '' });
+      setFormData({ name: '', country: '', genre: '' });
     }
     setIsModalOpen(true);
   };
@@ -90,10 +121,11 @@ export default function Authors() {
         <div className="grid">
           {authors.map(author => (
             <div key={author.id} className="card">
-              <h2 className="card-title">{author.name}</h2>
-              <p className="card-subtitle">Ծննդյան թիվ: {author.birthYear}</p>
-              <p className="card-content">{author.biography}</p>
+               <h2 className="card-title">{author.name}</h2>
+               <p className="card-subtitle">Երկիր՝ {author.country}</p>
+               <p className="card-content">Ժանր՝ {author.genre}</p>
               <div className="card-actions">
+                <button className="btn-author-books" onClick={() => handleOpenBooksModal(author)}>Գրքեր</button>
                 <button className="btn-secondary" onClick={() => handleOpenModal(author)}>Խմբագրել</button>
                 <button className="btn-danger" onClick={() => handleDelete(author.id)}>Ջնջել</button>
               </div>
@@ -112,19 +144,43 @@ export default function Authors() {
             <label>Անուն</label>
             <input name="name" value={formData.name} onChange={handleChange} required className="form-input" />
           </div>
-          <div className="form-group">
-            <label>Ծննդյան թիվ</label>
-            <input type="number" name="birthYear" value={formData.birthYear} onChange={handleChange} required className="form-input" />
-          </div>
-          <div className="form-group">
-            <label>Կենսագրություն</label>
-            <textarea name="biography" value={formData.biography} onChange={handleChange} className="form-textarea"></textarea>
-          </div>
+           <div className="form-group">
+             <label>Երկիր</label>
+             <input name="country" value={formData.country} onChange={handleChange} required className="form-input" />
+           </div>
+           <div className="form-group">
+             <label>Ժանր</label>
+             <input name="genre" value={formData.genre} onChange={handleChange} required className="form-input" />
+           </div>
           <div className="form-actions">
             <button type="button" className="btn-secondary" onClick={handleCloseModal}>Չեղարկել</button>
             <button type="submit" className="btn-primary">Պահպանել</button>
           </div>
         </form>
+      </Modal>
+
+      <Modal 
+        isOpen={isBooksModalOpen} 
+        onClose={handleCloseBooksModal} 
+        title={selectedAuthor ? `${selectedAuthor.name}-ի գրքերը` : 'Հեղինակի գրքերը'}
+      >
+        {loadingBooks ? (
+          <p style={{ textAlign: 'center', padding: '1rem' }}>Բեռնվում է...</p>
+        ) : authorBooks.length === 0 ? (
+          <p style={{ textAlign: 'center', padding: '1rem', color: '#666' }}>Այս հեղինակի ոչ մի գիրք չի գտնվել համակարգում:</p>
+        ) : (
+          <ul className="author-books-list">
+            {authorBooks.map(book => (
+              <li key={book.id} className="author-book-item" onClick={() => router.push(`/books?highlight=${book.id}`)}>
+                <span className="book-item-title">{book.title}</span>
+                <span className="book-item-year">{book.year} թ.</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="form-actions" style={{ marginTop: '1.5rem' }}>
+          <button type="button" className="btn-secondary" onClick={handleCloseBooksModal}>Փակել</button>
+        </div>
       </Modal>
     </div>
   );

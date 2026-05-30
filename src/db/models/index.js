@@ -13,8 +13,8 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-const aboutUsModel = require('./aboutus.js')(sequelize, Sequelize.DataTypes);
-db[aboutUsModel.name] = aboutUsModel;
+const genreModel = require('./genre.js')(sequelize, Sequelize.DataTypes);
+db[genreModel.name] = genreModel;
 
 const authorModel = require('./author.js')(sequelize, Sequelize.DataTypes);
 db[authorModel.name] = authorModel;

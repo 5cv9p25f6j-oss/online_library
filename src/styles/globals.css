@@ -112,7 +112,7 @@ a {
 .card {
   background: white;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-top: 4px solid var(--secondary-color);
@@ -147,8 +147,13 @@ a {
 .card-actions {
   margin-top: 1.5rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.6rem;
   justify-content: flex-end;
+}
+
+.card-actions button, .card-actions a {
+  padding: 0.5rem 0.9rem !important;
+  font-size: 0.95rem !important;
 }
 
 /* Buttons */
@@ -276,4 +281,393 @@ a {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
+}
+
+/* Custom File Upload */
+.current-file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f4ece1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #dcd1c4;
+  margin-top: 0.5rem;
+}
+
+.current-file-text {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.current-file-link {
+  color: var(--accent-color);
+  font-weight: 500;
+  text-decoration: underline;
+  word-break: break-all;
+  flex-grow: 1;
+}
+
+.current-file-link:hover {
+  color: var(--primary-color);
+}
+
+.btn-remove-file {
+  background: #fdfdfd;
+  border: 1px solid #ccc;
+  color: #666;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-file:hover {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+  transform: scale(1.1);
+}
+
+.selected-file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background-color: #e2f0d9;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #c5e1a5;
+  margin-top: 0.5rem;
+}
+
+.file-icon {
+  font-size: 1.2rem;
+}
+
+.file-name {
+  color: #385723;
+  font-weight: 500;
+  flex-grow: 1;
+  word-break: break-all;
+}
+
+.file-upload-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.file-upload-input {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  border: 2px dashed #d0c0b0;
+  border-radius: 10px;
+  background-color: #fdfbf7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload-wrapper:hover .file-upload-label {
+  border-color: var(--primary-color);
+  background-color: #f9f5ee;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 90, 43, 0.08);
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.file-upload-wrapper:hover .upload-icon {
+  transform: scale(1.15);
+}
+
+.upload-text {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.2rem;
+}
+
+.upload-hint {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Card Book Actions */
+.btn-read {
+  background-color: #556b2f; /* Olive Green for Reading */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-read:hover {
+  background-color: #3e5022;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(85, 107, 47, 0.2);
+}
+
+.btn-download {
+  background-color: #4682b4; /* Steel Blue for Downloading */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background-color: #2f5d84;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(70, 130, 180, 0.2);
+  color: white;
+}
+
+/* Premium Reader Modal */
+.reader-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  backdrop-filter: blur(10px);
+}
+
+.reader-container {
+  background-color: #fdf6e3; /* Solarized light warm theme */
+  color: #586e75;
+  width: 95%;
+  max-width: 900px;
+  height: 90vh;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid #eee8d5;
+  overflow: hidden;
+  animation: readerOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes readerOpen {
+  from {
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.reader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2.5rem;
+  background-color: #073642; /* Deep contrasting dark color */
+  color: #93a1a1;
+  border-bottom: 2px solid #586e75;
+}
+
+.reader-header h2 {
+  font-size: 1.4rem;
+  color: #fdf6e3;
+  margin: 0;
+  font-weight: 700;
+}
+
+.reader-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-font-control {
+  background-color: #586e75;
+  color: #fdf6e3;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.btn-font-control:hover {
+  background-color: #93a1a1;
+  color: #073642;
+}
+
+.reader-font-size {
+  color: #93a1a1;
+  font-weight: 600;
+  min-width: 45px;
+  text-align: center;
+}
+
+.btn-close-reader {
+  background-color: #dc322f;
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.btn-close-reader:hover {
+  background-color: #b58900;
+  transform: rotate(90deg);
+}
+
+.reader-content {
+  flex-grow: 1;
+  padding: 3rem 4rem;
+  overflow-y: auto;
+  line-height: 1.8;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  text-align: justify;
+}
+
+/* Custom scrollbar for reader-content */
+.reader-content::-webkit-scrollbar {
+  width: 10px;
+}
+.reader-content::-webkit-scrollbar-track {
+  background: #eee8d5;
+}
+.reader-content::-webkit-scrollbar-thumb {
+  background: #93a1a1;
+  border-radius: 5px;
+}
+.reader-content::-webkit-scrollbar-thumb:hover {
+  background: #586e75;
+}
+
+.reader-para {
+  margin-bottom: 1.5rem;
+  text-indent: 2rem;
+}
+
+/* Author Books list and highlight */
+.btn-author-books {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-author-books:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 90, 43, 0.2);
+}
+
+.author-books-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.author-book-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background-color: #fdfdfd;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.author-book-item:hover {
+  background-color: #f9f5ee;
+  border-color: var(--primary-color);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(139, 90, 43, 0.08);
+}
+
+.book-item-title {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.book-item-year {
+  font-size: 0.9rem;
+  color: #777;
+  background-color: var(--secondary-color);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+@keyframes highlightGlow {
+  0% {
+    box-shadow: var(--shadow);
+    border-color: var(--secondary-color);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(139, 90, 43, 0.6), inset 0 0 8px rgba(139, 90, 43, 0.1);
+    border-color: var(--primary-color);
+  }
+  100% {
+    box-shadow: var(--shadow);
+    border-color: var(--secondary-color);
+  }
+}
+
+.card.highlighted-card {
+  animation: highlightGlow 2.5s ease-in-out infinite alternate;
+  border-top: 4px solid var(--primary-color);
 }

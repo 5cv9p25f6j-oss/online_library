@@ -15,7 +15,7 @@ export default function Navbar() {
           <Link href="/authors" className="nav-link">Հեղինակներ</Link>
         </li>
         <li>
-          <Link href="/about-us" className="nav-link">Մեր մասին</Link>
+          <Link href="/genres" className="nav-link">Ժանրեր</Link>
         </li>
       </ul>
     </nav>

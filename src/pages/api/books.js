@@ -1,4 +1,13 @@
 import db from '../../db/models';
+import { saveFile } from '../../utils/fileHelper';
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '50mb',
+    },
+  },
+};
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -11,7 +20,14 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'POST') {
     try {
-      const newBook = await db.Book.create(req.body);
+      const { bookFile, ...bookData } = req.body;
+      if (bookFile) {
+        const filePath = saveFile(bookFile);
+        if (filePath) {
+          bookData.filePath = filePath;
+        }
+      }
+      const newBook = await db.Book.create(bookData);
       res.status(201).json(newBook);
     } catch (error) {
       console.error(error);
@@ -22,3 +38,4 @@ export default async function handler(req, res) {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
