@@ -1,4 +1,9 @@
-require('dotenv').config();
+if (typeof window === 'undefined' && !process.env.DB_USERNAME) {
+  try {
+    const dotenv = 'dotenv';
+    require(dotenv).config();
+  } catch (e) {}
+}
 
 const schemaConfig = {
   migrationStorageTableSchema: 'online_library',
