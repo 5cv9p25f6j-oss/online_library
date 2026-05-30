@@ -30,10 +30,18 @@ module.exports = {
       updatedAt: new Date()
     }));
 
-    await queryInterface.bulkInsert({ tableName: 'AboutUs', schema: 'online_library' }, aboutUsInfo, {});
+    try {
+      await queryInterface.bulkInsert({ tableName: 'AboutUs', schema: 'online_library' }, aboutUsInfo, {});
+    } catch (error) {
+      console.warn('Skipping AboutUs seed: table does not exist.');
+    }
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete({ tableName: 'AboutUs', schema: 'online_library' }, null, {});
+    try {
+      await queryInterface.bulkDelete({ tableName: 'AboutUs', schema: 'online_library' }, null, {});
+    } catch (error) {
+      console.warn('Skipping AboutUs seed undo: table does not exist.');
+    }
   }
 };

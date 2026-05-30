@@ -4,10 +4,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     // 1. Drop the AboutUs table
-    await queryInterface.dropTable('AboutUs');
+    await queryInterface.dropTable({ tableName: 'AboutUs', schema: 'online_library' });
 
     // 2. Create the Genres table
-    await queryInterface.createTable('Genres', {
+    await queryInterface.createTable({ tableName: 'Genres', schema: 'online_library' }, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -35,10 +35,10 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     // 1. Drop the Genres table
-    await queryInterface.dropTable('Genres');
+    await queryInterface.dropTable({ tableName: 'Genres', schema: 'online_library' });
 
     // 2. Re-create the AboutUs table
-    await queryInterface.createTable('AboutUs', {
+    await queryInterface.createTable({ tableName: 'AboutUs', schema: 'online_library' }, {
       id: {
         allowNull: false,
         autoIncrement: true,
